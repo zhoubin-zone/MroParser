@@ -33,6 +33,7 @@ public class MroCall implements Callable<Map<String, String>> {
         ListHandler listHandler = null;
         GZIPInputStream gis = null;
         ZipInputStream zipStream = null;
+        StringBuffer sb = null;
         try {
             FileInputStream is = new FileInputStream(name);
             InputSource inputSource = null;
@@ -69,8 +70,8 @@ public class MroCall implements Callable<Map<String, String>> {
             //3得到解读器
             XMLReader reader = sp.getXMLReader();
             //设置内容处理器
-
-            listHandler = new ListHandler();
+            sb = new StringBuffer();
+            listHandler = new ListHandler(sb);
 
             reader.setContentHandler(listHandler);
 
@@ -120,6 +121,24 @@ public class MroCall implements Callable<Map<String, String>> {
             reback.put("rip", rip);
             countDownLatch.countDown();
             return reback;
+        }else {
+            if (gis!=null){
+                try {
+                    gis.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (zipStream != null) {
+                try {
+                    zipStream.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (sb != null) {
+                sb=null;
+            }
         }
 
         countDownLatch.countDown();

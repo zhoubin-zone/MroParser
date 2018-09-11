@@ -20,7 +20,7 @@ public class ListHandler implements ContentHandler {
     String key;
     int ripNum=0;
     int num=0;
-
+    StringBuffer sb =null;
     Map<String,Object> oMap = new HashMap<String,Object>();
 
     List<Object> ripList = new ArrayList<Object>();
@@ -28,6 +28,9 @@ public class ListHandler implements ContentHandler {
 
     public ListHandler() {
 
+    }
+    public ListHandler(StringBuffer sb) {
+        this.sb = sb;
     }
 
 
@@ -185,7 +188,7 @@ public class ListHandler implements ContentHandler {
     }
 
     public String getRsrp() {
-        StringBuffer sb = new StringBuffer();
+//        StringBuffer sb = new StringBuffer();
         for (String key : keyList) {
             Object ob = oMap.get(key);
             sb.append(
